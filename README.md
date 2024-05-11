@@ -1,3 +1,5 @@
+[![Go Reference](https://pkg.go.dev/badge/github.com/greenthepear/gunc.svg)](https://pkg.go.dev/github.com/greenthepear/gunc)
+
 **gunc** is a collection of functional programming and array programming utilities for Go slices.
 
 No dependencies, just the standard library and generics!
