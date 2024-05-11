@@ -13,8 +13,7 @@ The classics: apply, filter, reduce
 
 ```go
 s1 = gunc.Apply(s1, func(e int) int { return e + 3}) // [0, 1, 2, 3, 4, 5, 6]
-s1 = gunc.Filter(s1, func(e int) bool { return e % 3 == 0
-}) // [0, 3, 6]
+s1 = gunc.Filter(s1, func(e int) bool { return e % 3 == 0 }) // [0, 3, 6]
 s1 = gunc.Reduce(s1, func(a, b int) int { return a + b }) // 9
 ```
 
