@@ -11,7 +11,8 @@ func Apply[S ~[]E, E any, R any](slice S, fn func(E) R) []R {
 	return r
 }
 
-// Like [Apply], but function fn takes the index of the element as a parameter.
+// Like [Apply], but function fn takes the index of the element
+// as a parameter.
 func ApplyWithIndex[S ~[]E, E any, R any](slice S, fn func(int, E) R) []R {
 	r := make([]R, len(slice))
 	for i, e := range slice {

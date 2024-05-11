@@ -3,7 +3,7 @@ package gunc
 // Return value after applying dyadic function fn to each neighboring element.
 func Reduce[S ~[]E, E any](slice S, fn func(E, E) E) E {
 	var r E = slice[0]
-	for i := 1; i < len(slice)-1; i++ {
+	for i := 1; i < len(slice); i++ {
 		r = fn(r, slice[i])
 	}
 	return r

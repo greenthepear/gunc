@@ -5,6 +5,13 @@ import (
 	"testing"
 )
 
+func errorTargetVsExpected(
+	t *testing.T, whatsWrong string, result any, target any) {
+	t.Errorf(
+		"Worng after %s!\nShould be:\t%v\nis:\t%v",
+		whatsWrong, target, result)
+}
+
 func TestApply(t *testing.T) {
 	s := CreateWithStep(0, 10, 0.5)
 	rs := string(Apply(s, func(e float64) rune {
@@ -12,9 +19,7 @@ func TestApply(t *testing.T) {
 	}))
 	target := "aabbccddeeffgghhiijjk"
 	if rs != target {
-		t.Errorf(
-			"Worng after apply!\nShould be:\t%s\nis:\t%v",
-			target, rs)
+		errorTargetVsExpected(t, "apply #1", rs, target)
 	}
 
 	s2 := CreateWithStep(100, 0, 10)
@@ -23,8 +28,6 @@ func TestApply(t *testing.T) {
 	})
 	target2 := []int{-2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8}
 	if !slices.Equal(s2, target2) {
-		t.Errorf(
-			"Worng after apply! Should be `%v`, is:\t%v",
-			target2, s2)
+		errorTargetVsExpected(t, "apply #2", s2, target2)
 	}
 }

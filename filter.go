@@ -11,7 +11,8 @@ func Filter[S ~[]E, E any](slice S, fn func(E) bool) S {
 	return r
 }
 
-// Like [Filter], but function fn takes the index of the element as a parameter.
+// Like [Filter], but function fn takes the index of the element
+// as a parameter.
 func FilterWithIndex[S ~[]E, E any](slice S, fn func(int, E) bool) S {
 	r := make(S, 0)
 	for i, e := range slice {
