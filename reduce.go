@@ -18,3 +18,12 @@ func Scan[S ~[]E, E any](slice S, fn func(E, E) E) S {
 	}
 	return slice
 }
+
+func ScanWithIndex[S ~[]E, E any](
+	slice S, fn func(e1 E, i1 int, e2 E, i2 int) E) S {
+
+	for i := 1; i < len(slice); i++ {
+		slice[i] = fn(slice[i-1], i-1, slice[i], i)
+	}
+	return slice
+}

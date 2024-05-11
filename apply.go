@@ -2,7 +2,7 @@ package gunc
 
 // Apply applies function fn to each element of the slice and returns it.
 //
-// Return can be of different type than the slice.
+// The returning slice can be of a differnt type.
 func Apply[S ~[]E, E any, R any](slice S, fn func(E) R) []R {
 	r := make([]R, len(slice))
 	for i, e := range slice {

@@ -12,7 +12,7 @@ type Number interface {
 //
 // Panics if step is negative
 // (should still be positive for descending ranges).
-func CreateWithStep[N Number](from N, to N, step N) []N {
+func RangeWithStep[N Number](from N, to N, step N) []N {
 	r := make([]N, 0)
 	if step < 0 {
 		panic("negative step would cause an infinite loop")
@@ -29,7 +29,7 @@ func CreateWithStep[N Number](from N, to N, step N) []N {
 	return r
 }
 
-// Alias for [CreateWithStep](from, to, 1).
-func Create[N Number](from N, to N) []N {
-	return CreateWithStep(from, to, 1)
+// Alias for [RangeWithStep](from, to, 1).
+func Range[N Number](from N, to N) []N {
+	return RangeWithStep(from, to, 1)
 }

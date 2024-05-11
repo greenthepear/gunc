@@ -13,7 +13,7 @@ func errorTargetVsExpected(
 }
 
 func TestApply(t *testing.T) {
-	s := CreateWithStep(0, 10, 0.5)
+	s := RangeWithStep(0, 10, 0.5)
 	rs := string(Apply(s, func(e float64) rune {
 		return 'a' + rune(e)
 	}))
@@ -22,7 +22,7 @@ func TestApply(t *testing.T) {
 		errorTargetVsExpected(t, "apply #1", rs, target)
 	}
 
-	s2 := CreateWithStep(100, 0, 10)
+	s2 := RangeWithStep(100, 0, 10)
 	s2 = ApplyWithIndex(s2, func(index int, elem int) int {
 		return index - 2
 	})
