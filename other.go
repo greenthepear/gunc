@@ -8,25 +8,44 @@ func Reverse[S ~[]E, E any](s S) S {
 	return s
 }
 
-type PipeFunction[S ~[]E, E any] interface {
-	func(S) S |
-		func(S, func(E) E) S |
-		func(S, func(int, E) E) S
+type InnerFunction[S ~[]E, E any] interface {
+	func(E) E | func(int, E) E
 }
 
-func Pipeline[S ~[]E, E any, F PipeFunction[S, E]](param S, functions ...func() S) S {
+type PipeFunction[I InnerFunction[S, E], S ~[]E, E any] interface {
+	func(S) S | func(S, I) S
+}
+type With[M PipeFunction[I, S, E], I InnerFunction[S, E], S ~[]E, E any] struct {
+	main  M
+	inner I
+}
+
+func (p With[M, I, S, E]) With(
+	mainFunction M, innerFunction I) With[M, I, S, E] {
+	return With[M, I, S, E]{mainFunction, innerFunction}
+}
+
+func Pipeline[M PipeFunction[I, S, E], I InnerFunction[S, E], S ~[]E, E any](
+	param S, functions ...With[M, I, S, E]) S {
 	for _, f := range functions {
-		f1, ok := any(f).(func(S) S)
+		mf := f.main
+		f1, ok := any(mf).(func(S) S)
 		if ok {
 			param = f1(param)
 			continue
 		}
-		f2, ok := any(f).(func(S, func(E) E) S)
+		f2, ok := any(mf).(func(S, func(E) E) S)
 		if ok {
-			param = 
+			param = f2(param, any(f.inner).(func(E) E))
+			continue
 		}
-		f3, ok3 := any(f).(func(S, func(int, E) E) S)
-		param = f(param)
+		f3, ok := any(f).(func(S, func(int, E) E) S)
+		if ok {
+			param = f3(param, any(f.inner).(func(int, E) E))
+			continue
+		}
+
+		panic("function does not implement generic interface")
 	}
 	return param
 }

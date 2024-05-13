@@ -17,6 +17,8 @@ func TestReverse(t *testing.T) {
 func TestPipeline(t *testing.T) {
 	s := Range(1, 10)
 	s = Pipeline(s,
-		Reverse,
+		With(Apply, func(i int, e int) int {
+			return i - e
+		}),
 	)
 }
