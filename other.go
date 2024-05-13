@@ -25,27 +25,15 @@ func (p With[M, I, S, E]) With(
 	return With[M, I, S, E]{mainFunction, innerFunction}
 }
 
-func Pipeline[M PipeFunction[I, S, E], I InnerFunction[S, E], S ~[]E, E any](
-	param S, functions ...With[M, I, S, E]) S {
-	for _, f := range functions {
-		mf := f.main
-		f1, ok := any(mf).(func(S) S)
-		if ok {
-			param = f1(param)
-			continue
-		}
-		f2, ok := any(mf).(func(S, func(E) E) S)
-		if ok {
-			param = f2(param, any(f.inner).(func(E) E))
-			continue
-		}
-		f3, ok := any(f).(func(S, func(int, E) E) S)
-		if ok {
-			param = f3(param, any(f.inner).(func(int, E) E))
-			continue
-		}
+func Do[S ~[]E, E any, F PipeFunction[S, E]](f F) func(E) S {
+	return func(param E) S {
+		return f(param)
+	}
+}
 
-		panic("function does not implement generic interface")
+func Pipeline[S ~[]E, E any, F PipeFunction[S, E]](param S, functions ...F) S {
+	for _, f := range functions {
+		param = f1(param)
 	}
 	return param
 }
