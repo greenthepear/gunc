@@ -13,10 +13,3 @@ func TestReverse(t *testing.T) {
 		errorTargetVsExpected(t, "reverse", s, target)
 	}
 }
-
-func TestPipeline(t *testing.T) {
-	s := Range(1, 10)
-	s = Pipeline(s,
-		Reverse,
-	)
-}

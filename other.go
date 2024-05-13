@@ -14,19 +14,15 @@ type PipeFunction[S ~[]E, E any] interface {
 		func(S, func(int, E) E) S
 }
 
-func Pipeline[S ~[]E, E any, F PipeFunction[S, E]](param S, functions ...func() S) S {
+func Do[S ~[]E, E any, F PipeFunction[S, E]](f F) func(E) S {
+	return func(param E) S {
+		return f(param)
+	}
+}
+
+func Pipeline[S ~[]E, E any, F PipeFunction[S, E]](param S, functions ...F) S {
 	for _, f := range functions {
-		f1, ok := any(f).(func(S) S)
-		if ok {
-			param = f1(param)
-			continue
-		}
-		f2, ok := any(f).(func(S, func(E) E) S)
-		if ok {
-			param = 
-		}
-		f3, ok3 := any(f).(func(S, func(int, E) E) S)
-		param = f(param)
+		param = f1(param)
 	}
 	return param
 }
