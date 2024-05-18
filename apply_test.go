@@ -8,8 +8,22 @@ import (
 func errorTargetVsExpected(
 	t *testing.T, whatsWrong string, result any, target any) {
 	t.Errorf(
-		"Worng after %s!\nShould be:\t%v\nis:\t%v",
+		"Worng after %s!\nshould be:\t%v\nis:\t\t%v",
 		whatsWrong, target, result)
+}
+
+func checkTargetVal[E comparable](
+	t *testing.T, whatsAreWeChecking string, result E, target E) {
+	if result != target {
+		errorTargetVsExpected(t, whatsAreWeChecking, result, target)
+	}
+}
+
+func checkTargetSlice[S ~[]E, E comparable](
+	t *testing.T, whatsAreWeChecking string, result S, target S) {
+	if !slices.Equal(result, target) {
+		errorTargetVsExpected(t, whatsAreWeChecking, result, target)
+	}
 }
 
 func TestApply(t *testing.T) {
@@ -17,17 +31,12 @@ func TestApply(t *testing.T) {
 	rs := string(Apply(s, func(e float64) rune {
 		return 'a' + rune(e)
 	}))
-	target := "aabbccddeeffgghhiijjk"
-	if rs != target {
-		errorTargetVsExpected(t, "apply #1", rs, target)
-	}
+	checkTargetVal(t, "apply #1", rs, "aabbccddeeffgghhiijjk")
 
 	s2 := RangeWithStep(100, 0, 10)
 	s2 = ApplyWithIndex(s2, func(index int, elem int) int {
 		return index - 2
 	})
-	target2 := []int{-2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8}
-	if !slices.Equal(s2, target2) {
-		errorTargetVsExpected(t, "apply #2", s2, target2)
-	}
+	checkTargetSlice(
+		t, "apply #2", s2, []int{-2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8})
 }
