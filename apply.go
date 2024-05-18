@@ -20,3 +20,18 @@ func ApplyWithIndex[S ~[]E, E any, R any](slice S, fn func(int, E) R) []R {
 	}
 	return r
 }
+
+// Like [Apply] but works on the slice directly/in-place.
+func ApplyInPlace[S ~[]E, E any](slice *S, fn func(E) E) {
+	for i, e := range *slice {
+		(*slice)[i] = fn(e)
+	}
+}
+
+// Like [ApplyInPlace], but function fn takes the index of the element
+// as a parameter.
+func ApplyInPlaceWithIndex[S ~[]E, E any](slice *S, fn func(int, E) E) {
+	for i, e := range *slice {
+		(*slice)[i] = fn(i, e)
+	}
+}

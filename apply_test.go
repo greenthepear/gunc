@@ -38,5 +38,9 @@ func TestApply(t *testing.T) {
 		return index - 2
 	})
 	checkTargetSlice(
-		t, "apply #2", s2, []int{-2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8})
+		t, "apply with index #1", s2, []int{-2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8})
+
+	s3 := Range(0, 6)
+	ApplyInPlace(&s3, func(elem int) int { return elem % 2 })
+	checkTargetSlice(t, "in-place apply #1", s3, []int{0, 1, 0, 1, 0, 1, 0})
 }
