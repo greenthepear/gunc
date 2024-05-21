@@ -23,4 +23,4 @@ res := gunc.Reduce(s1, func(a, b int) int { return a + b }) // 9
 Want the functions to use indexes also? `ApplyWithIndex()`, `FilterWithIndex()` and `ReduceWithIndex()` got you covered. Wanna keep `Reduce()`'s elements? `Scan()` is here from APL land.
 
 # License
-MIT is lame. LGPL is the way to go.
+Do what you want with this, to be fancy I chose the **0BSD** license.
